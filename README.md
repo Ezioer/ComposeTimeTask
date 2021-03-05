@@ -5,14 +5,14 @@
 ![Workflow result](https://github.com/Ezioer/ComposeTimeTask/workflows/Check/badge.svg)
 
 
-## :scroll: CountDown By jetpack compose
+## :scroll: Description
 <!--- Describe your app in one or two sentences -->
-
+This is a CountDown app, for the #AndroidDevChallenge of Jetpack Compose.
 
 ## :bulb: Motivation and Context
 <!--- Optionally point readers to interesting parts of your submission. -->
 <!--- What are you especially proud of? -->
-input your TimeTask
+- input your goal time
 
 
 ## :camera_flash: Screenshots

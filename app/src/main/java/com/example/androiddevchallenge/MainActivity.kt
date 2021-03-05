@@ -20,8 +20,6 @@ import android.os.CountDownTimer
 import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,10 +29,12 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -67,7 +67,8 @@ fun MyApp() {
 
         TimerCircle(elapsedTime = progress, totalTime = totalTime)
         TextField(
-            value = inputTime, onValueChange = {
+            value = inputTime,
+            onValueChange = {
                 if (it.isNullOrEmpty()) {
                     inputTime = ""
                     totalTime = 0
@@ -77,12 +78,14 @@ fun MyApp() {
                     totalTime = it.toLong()
                     progress = it.toLong()
                 }
-            }, modifier = Modifier
+            },
+            modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally)
         )
         Text(
-            "count down--${progress}s", style = textStyle.h4, modifier = Modifier
+            "count down--${progress}s", style = textStyle.h4,
+            modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally)
         )
@@ -94,15 +97,15 @@ fun MyApp() {
                 val timer = object : CountDownTimer(totalTime * 1000, 1000) {
                     override fun onTick(millisUntilFinished: Long) {
                         progress--
-                        Log.i("time", "progress=${progress}")
+                        Log.i("time", "progress=$progress")
                     }
 
                     override fun onFinish() {
                     }
-
                 }
                 timer.start()
-            }, modifier = Modifier
+            },
+            modifier = Modifier
                 .padding(top = 20.dp)
                 .align(Alignment.CenterHorizontally)
         ) {
@@ -124,43 +127,46 @@ fun TimerCircle(
     elapsedTime: Long,
     totalTime: Long
 ) {
-    Canvas(modifier = Modifier
-        .fillMaxWidth()
-        .height(300.dp), onDraw = {
-        val strokeSize = 20.dp
-        val radiusOffset = 6
+    Canvas(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(300.dp),
+        onDraw = {
+            val strokeSize = 20.dp
+            val radiusOffset = 6
 
-        val xCenter = size.width / 2f
-        val yCenter = size.height / 2f
-        val radius = min(xCenter, yCenter)
-        val arcWidthHeight = ((radius - radiusOffset) * 2f)
-        val arcSize = Size(arcWidthHeight, arcWidthHeight)
+            val xCenter = size.width / 2f
+            val yCenter = size.height / 2f
+            val radius = min(xCenter, yCenter)
+            val arcWidthHeight = ((radius - radiusOffset) * 2f)
+            val arcSize = Size(arcWidthHeight, arcWidthHeight)
 
-        val remainderColor = Color.Gray
-        val completedColor = Color.Red
+            val remainderColor = Color.Gray
+            val completedColor = Color.Red
 
-        val grayPercent =
-            min(1f, elapsedTime.toFloat() / totalTime.toFloat())
-        val redPercent = 1 - grayPercent
+            val grayPercent =
+                min(1f, elapsedTime.toFloat() / totalTime.toFloat())
+            val redPercent = 1 - grayPercent
 
-        drawArc(
-            completedColor,
-            270f,
-            -redPercent * 360f,
-            false,
-            topLeft = Offset(radiusOffset.toFloat(), radiusOffset.toFloat()),
-            size = arcSize,
-            style = Stroke(width = strokeSize.value)
-        )
+            drawArc(
+                completedColor,
+                270f,
+                -redPercent * 360f,
+                false,
+                topLeft = Offset(radiusOffset.toFloat(), radiusOffset.toFloat()),
+                size = arcSize,
+                style = Stroke(width = strokeSize.value)
+            )
 
-        drawArc(
-            remainderColor,
-            270f,
-            grayPercent * 360,
-            false,
-            topLeft = Offset(radiusOffset.toFloat(), radiusOffset.toFloat()),
-            size = arcSize,
-            style = Stroke(width = strokeSize.value)
-        )
-    })
+            drawArc(
+                remainderColor,
+                270f,
+                grayPercent * 360,
+                false,
+                topLeft = Offset(radiusOffset.toFloat(), radiusOffset.toFloat()),
+                size = arcSize,
+                style = Stroke(width = strokeSize.value)
+            )
+        }
+    )
 }
